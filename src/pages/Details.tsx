@@ -20,10 +20,12 @@ const Details = () => {
         getMovieDetails();
     }, [id]);
 
-    if (!movie) return <p>Loading...</p>;
+    if (!movie) return <div className="flex justify-center items-center h-svh">
+        <div className="spinner"></div>
+    </div>
 
     return (
-        <main className='flex justify-center items-center'>
+        <main className='flex justify-center items-center '>
             <MovieDetails movie={movie} />
         </main>
     );

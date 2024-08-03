@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../css/Spinner.css";
 import IMovieDetails from "../../Interfaces/IMovieInterface";
 import api from "../../services/api";
 import MovieCard from './MovieCard';
-
 export const ListMovies = () => {
     const [movies, setMovies] = useState<IMovieDetails[]>([]);
-    const [page, setPage] = useState(1); // Estado para rastrear a página atual
-    const [loading, setLoading] = useState(false); // Estado para rastrear o carregamento
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
 
     const getMovies = async (page: number) => {
         try {
@@ -23,12 +24,12 @@ export const ListMovies = () => {
     };
 
     useEffect(() => {
-        getMovies(1); // Carregar a primeira página apenas uma vez
+        getMovies(1);
     }, []);
 
     useEffect(() => {
         if (page > 1) {
-            getMovies(page); // Carregar páginas subsequentes quando a página for incrementada
+            getMovies(page);
         }
     }, [page]);
 
@@ -39,6 +40,16 @@ export const ListMovies = () => {
     const handleLoadMore = () => {
         setPage(prevPage => prevPage + 1);
     };
+
+    if (loading) {
+        return <div className="flex justify-center items-center mt-[10%]">
+            <div className="spinner"></div>
+        </div>
+    }
+
+    if (!movies) {
+        return <p>Movie not found</p>;
+    }
 
     return (
         <div className="movie-list">
