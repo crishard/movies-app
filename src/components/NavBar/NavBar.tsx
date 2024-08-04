@@ -1,15 +1,17 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
     return (
         <div className="flex py-6 items-center justify-between">
-            <a className="text-2xl font-semibold" href="/">
+            <Link className="text-2xl font-semibold" to="/">
                 <span className="">Movies</span>
-            </a>
+            </Link>
             <nav className="md:ml-auto flex items-center text-base justify-center">
-                <a className="">First Link</a>
+                <Link className="mr-5" to="/watch-later">Assistir Mais Tarde</Link>
             </nav>
         </div>
-    )
+    );
 }
 
-export default NavBar
+export default NavBar;
