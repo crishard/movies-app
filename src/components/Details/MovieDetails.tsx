@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import IMovieDetails from '../../Interfaces/IMovieInterface';
 import { StarRating } from '../StarRatings';
 import Genres from './Genres';
@@ -25,6 +26,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
             watchLaterMovies.push(movie);
             localStorage.setItem('watchLaterMovies', JSON.stringify(watchLaterMovies));
             setIsAdded(true);
+            toast.success('Filme adicionado à lista para assistir mais tarde!');
         }
     };
 
