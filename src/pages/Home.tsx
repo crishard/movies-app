@@ -1,9 +1,10 @@
 import { ListMovies } from "../components/List/ListMovies"
 
-export const Home = () => {
+const Home = () => {
     return (
         <main className="min-h-screen">
             <ListMovies />
         </main>
     )
 }
+export default Home
