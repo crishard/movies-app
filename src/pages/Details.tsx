@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MovieDetails } from '../components/Details';
+import MovieDetails from '../components/Details/MovieDetails';
 import IMovieDetails from '../Interfaces/IMovieInterface';
 import api from "../services/api";
 
@@ -20,9 +20,11 @@ const Details = () => {
         getMovieDetails();
     }, [id]);
 
-    if (!movie) return <div className="flex justify-center items-center h-svh">
-        <div className="spinner"></div>
-    </div>
+    if (!movie) return (
+        <div className="flex justify-center items-center h-svh">
+            <div className="spinner"></div>
+        </div>
+    );
 
     return (
         <main className='flex justify-center items-center '>
