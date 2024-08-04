@@ -8,12 +8,13 @@ function App() {
 
   return (
     <main className="sm:px-[8%] px-[4%]">
-      <Header />
+
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movies/:id" element={<Details />} />
-          <Route path="/watch-later" element={<WatchLater/>} />
+          <Route path="/watch-later" element={<WatchLater />} />
         </Routes>
       </Router>
       <Footer />
