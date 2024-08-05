@@ -20,9 +20,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
         setIsAdded(isMovieInList);
     }, [movie.id]);
 
-    const handleAddToWatchLater = () => {
+    const handleToggleWatchLater = () => {
         const watchLaterMovies = JSON.parse(localStorage.getItem('watchLaterMovies') || '[]');
-        if (!watchLaterMovies.some((m: IMovieDetails) => m.id === movie.id)) {
+        if (isAdded) {
+            const updatedMovies = watchLaterMovies.filter((m: IMovieDetails) => m.id !== movie.id);
+            localStorage.setItem('watchLaterMovies', JSON.stringify(updatedMovies));
+            setIsAdded(false);
+            toast.success('Filme removido da lista para assistir mais tarde!');
+        } else {
             watchLaterMovies.push(movie);
             localStorage.setItem('watchLaterMovies', JSON.stringify(watchLaterMovies));
             setIsAdded(true);
@@ -31,7 +36,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
     };
 
     return (
-        <div className="movie-details text-gray-200 pb-[10%]">
+        <div className="movie-details text-gray-200 pb-[10%] border py-10 rounded-lg">
             <h1 className="text-4xl text-center font-bold pb-8">{movie.title}</h1>
             <MovieImage posterPath={movie.poster_path} title={movie.title} />
             <MovieDescription overview={movie.overview} />
@@ -43,11 +48,10 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
             <Genres genres={movie.genres} />
             <div className='flex items-center justify-center mt-8'>
                 <button
-                    className={`mt-4 px-4 py-2 ${isAdded ? 'bg-green-500' : 'bg-blue-500'} text-white rounded`}
-                    onClick={handleAddToWatchLater}
-                    disabled={isAdded}
+                    className={`mt-4 px-4 py-2 ${isAdded ? 'bg-red-500' : 'bg-blue-500'} text-white rounded`}
+                    onClick={handleToggleWatchLater}
                 >
-                    {isAdded ? 'Adicionado à lista' : 'Adicionar à lista'}
+                    {isAdded ? 'Remover da lista' : 'Adicionar à lista'}
                 </button>
             </div>
         </div>
