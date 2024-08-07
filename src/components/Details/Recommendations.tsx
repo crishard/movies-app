@@ -39,11 +39,11 @@ const Recommendations: React.FC = () => {
         <div className="mt-32 text-gray-200">
             <h2 className="text-2xl font-bold pb-4">Recomendações</h2>
             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                {recommendations.map(recommendation => (
+                {recommendations.map((recommendation, index) => (
                     <Link
                         onClick={handleClick}
                         to={`/movies/${recommendation.id}`}
-                        key={recommendation.id}
+                        key={`${recommendation.id}-${index}`}
                         className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded"
                     >
                         <img

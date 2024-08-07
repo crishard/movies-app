@@ -26,7 +26,13 @@ export const ListMovies: React.FC = () => {
             setLoading(true);
             const genreParam = genreId ? `&with_genres=${genreId}` : '';
             const response = await api.get(`/3/discover/movie?page=${page}${genreParam}`);
-            setMovies(prevMovies => page === 1 ? response.data.results : [...prevMovies, ...response.data.results]);
+            setMovies(prevMovies => {
+                const newMovies = response.data.results;
+                const uniqueMovies = newMovies.filter(
+                    (                    newMovie: { id: number; }) => !prevMovies.some(movie => movie.id === newMovie.id)
+                );
+                return page === 1 ? newMovies : [...prevMovies, ...uniqueMovies];
+            });
             setLoading(false);
         } catch (error) {
             console.error("Error fetching movies:", error);
@@ -38,7 +44,13 @@ export const ListMovies: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.get(`/3/search/movie?query=${searchTerm}&page=${page}`);
-            setMovies(prevMovies => page === 1 ? response.data.results : [...prevMovies, ...response.data.results]);
+            setMovies(prevMovies => {
+                const newMovies = response.data.results;
+                const uniqueMovies = newMovies.filter(
+                    (                    newMovie: { id: number; }) => !prevMovies.some(movie => movie.id === newMovie.id)
+                );
+                return page === 1 ? newMovies : [...prevMovies, ...uniqueMovies];
+            });
             setLoading(false);
         } catch (error) {
             console.error("Error searching movies:", error);
@@ -98,9 +110,6 @@ export const ListMovies: React.FC = () => {
         setSearchTerm(searchTerm);
     };
 
-
-
-
     return (
         <div className="movie-list">
             <div className="flex justify-end mb-10">
@@ -123,23 +132,19 @@ export const ListMovies: React.FC = () => {
                         ))}
                     </select>
                 </div>
-
             </div>
-
-
-            {
-                (loading && page === 1) && (
-                    <div className="flex justify-center items-center mt-[10%]">
-                        <div className="spinner"></div>
-                    </div>
-                )
-            }
-
-            {movies.length  >  0  ? (
+            {loading && page === 1 && (
+                <div className="flex justify-center items-center mt-[10%]">
+                    <div className="spinner"></div>
+                </div>
+            )}
+            {movies.length > 0 ? (
                 <>
                     <ul className="grid lg:grid-cols-4 cursor-pointer md:grid-cols-3 gap-6 max-[770px]:grid-cols-2 max-[500px]:grid-cols-1 ">
                         {movies.map((movie) => (
-                            <MovieCard key={movie.id} movie={movie} onClick={() => handleCardClick(movie.id)} />
+                            <li key={movie.id}>
+                                <MovieCard movie={movie} onClick={() => handleCardClick(movie.id)} />
+                            </li>
                         ))}
                     </ul>
                     <div className="flex justify-center py-12">

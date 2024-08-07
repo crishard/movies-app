@@ -1,14 +1,24 @@
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+import React from 'react';
 
 interface ReleaseDateProps {
-  releaseDate: string;
+    releaseDate: string;
 }
 
 const ReleaseDate: React.FC<ReleaseDateProps> = ({ releaseDate }) => {
-  const formattedDate = format(parseISO(releaseDate), 'dd/MM/yyyy');
-  return (
-    <p className="text-lg pb-2">Data de lançamento: {formattedDate}</p>
-  );
+    if (!releaseDate) {
+        return <span>Data de lançamento desconhecida</span>;
+    }
+
+    let formattedDate;
+    try {
+        formattedDate = format(new Date(releaseDate), 'dd/MM/yyyy');
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return <span>Data inválida</span>;
+    }
+
+    return <span>{formattedDate}</span>;
 };
 
 export default ReleaseDate;
