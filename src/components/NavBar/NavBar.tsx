@@ -7,8 +7,9 @@ const NavBar: React.FC = () => {
             <Link className="text-2xl font-semibold" to="/">
                 <span className="">Movies</span>
             </Link>
-            <nav className="md:ml-auto flex items-center text-base bg-blue-500 px-2 py-2 text-center justify-center rounded-xl">
-                <Link className="" to="/watch-later">Minha lista</Link>
+            <nav className="md:ml-auto flex items-center gap-3 text-base  text-center justify-center ">
+                <Link className="bg-blue-500 px-2 py-2 rounded-xl" to="/watch-later">Minha lista</Link>
+                <Link className="bg-blue-500 px-2 py-2 rounded-xl" to="/favorites">Favoritos</Link>
             </nav>
         </div>
     );

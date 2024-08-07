@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { Details, Home, WatchLater } from "./pages";
+import { Details, Favorites, Home, WatchLater } from "./pages";
 
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/movies/:id" element={<Details />} />
           <Route path="/watch-later" element={<WatchLater />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </Router>
       <Footer />
