@@ -11,7 +11,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   return (
     <div
       key={movie.id}
-      className="text-gray-200 text-center rounded hover:scale-105 duration-300"
+      className="text-gray-200 shadow-sm p-2 text-center rounded hover:scale-105 duration-300"
       onClick={() => onClick(movie.id)}
     >
       <img

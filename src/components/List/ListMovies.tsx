@@ -137,7 +137,7 @@ export const ListMovies: React.FC = () => {
 
             {movies.length  >  0  ? (
                 <>
-                    <ul className="grid lg:grid-cols-4 cursor-pointer md:grid-cols-3 gap-10 max-[770px]:grid-cols-2 max-[500px]:grid-cols-1 ">
+                    <ul className="grid lg:grid-cols-4 cursor-pointer md:grid-cols-3 gap-6 max-[770px]:grid-cols-2 max-[500px]:grid-cols-1 ">
                         {movies.map((movie) => (
                             <MovieCard key={movie.id} movie={movie} onClick={() => handleCardClick(movie.id)} />
                         ))}
