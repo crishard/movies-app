@@ -8,7 +8,7 @@ interface MovieImageProps {
       <img
         src={`https://image.tmdb.org/t/p/original${posterPath}`}
         alt={title}
-        className="w-[40%] mx-auto flex rounded pb-8"
+        className="flex rounded pb-8"
       />
     );
   };
