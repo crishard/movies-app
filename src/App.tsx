@@ -7,7 +7,7 @@ import { Details, Favorites, Home, WatchLater } from "./pages";
 function App() {
 
   return (
-    <main className="sm:px-[8%] px-[4%]">
+    <main className="sm:px-[8%] px-[4%] text-[#EEEEEE]">
 
       <Router>
         <Header />

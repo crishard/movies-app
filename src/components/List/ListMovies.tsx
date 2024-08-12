@@ -111,18 +111,18 @@ export const ListMovies: React.FC = () => {
     };
 
     return (
-        <div className="movie-list">
-            <div className="flex justify-end mb-10">
-                <div className="relative inline-flex text-left gap-5">
+        <div className="">
+            <div className="sm:flex block justify-end mb-10">
+                <div className="sm:inline-flex text-left gap-5">
                     <input
                         type="text"
-                        className="ml-4 p-2 border border-gray-300 rounded"
+                        className="ml-4 p-2 border border-gray-300 rounded text-gray-900"
                         placeholder="Pesquisar filmes"
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
                     <select
-                        className="w-full bg-transparent px-4 py-2 mt-1 text-base border border-gray-300 text-gray-200 rounded-md focus:outline-none overflow-auto focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="sm:mt-0 mt-3 ml-4 bg-transparent px-4 py-2 text-base border border-gray-300 text-gray-200 rounded-md focus:outline-none overflow-auto focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         onChange={handleGenreChange}
                         value={selectedGenre || ''}
                     >
@@ -158,7 +158,7 @@ export const ListMovies: React.FC = () => {
                     </div>
                 </>
             ) : (
-                <p>No movies found</p>
+                <p>Nenhum filme encontrado</p>
             )}
         </div>
     );
