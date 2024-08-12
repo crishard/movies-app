@@ -53,8 +53,6 @@ Para rodar o projeto localmente, siga os passos abaixo:
    ```plaintext
    VITE_TMDB_API_KEY=your_api_key_here
    VITE_TOKEN=your_token_api
-
-
    ```
 
 5. **Execute o projeto:**
