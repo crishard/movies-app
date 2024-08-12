@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import StarRating from '../components/StarRatings/StarRatings';
 import CardMovie from '../components/WatchLater/CardMovie';
 import IMovieDetails from '../Interfaces/IMovieInterface';
@@ -87,7 +88,7 @@ const WatchLater: React.FC = () => {
                     <h2 className="text-2xl text-gray-200 font-bold text-center pb-8">Recomendações</h2>
                     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
                         {recommendations.map(recommendation => (
-                            <div key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded">
+                            <Link       to={`/movies/${recommendation.id}`} key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w200${recommendation.poster_path}`}
                                     alt={recommendation.title}
@@ -100,7 +101,7 @@ const WatchLater: React.FC = () => {
                                         <p>Avaliação: <StarRating rating={recommendation.vote_average} /></p>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                     {hasMoreRecommendations && (
