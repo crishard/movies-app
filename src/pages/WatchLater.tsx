@@ -3,65 +3,23 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import StarRating from '../components/StarRatings/StarRatings';
 import CardMovie from '../components/WatchLater/CardMovie';
+import useFetchRecommendations from '../hooks/useFetchRecommendations';
 import IMovieDetails from '../Interfaces/IMovieInterface';
-import IRecommendation from '../Interfaces/IRecommendation';
-import api from '../services/api';
 
 const WatchLater: React.FC = () => {
     const [movies, setMovies] = useState<IMovieDetails[]>([]);
-    const [recommendations, setRecommendations] = useState<IRecommendation[]>([]);
-    const [recommendationsPage, setRecommendationsPage] = useState(1);
-    const [hasMoreRecommendations, setHasMoreRecommendations] = useState(true);
 
     useEffect(() => {
         const storedMovies = JSON.parse(localStorage.getItem('watchLaterMovies') || '[]');
         setMovies(storedMovies);
     }, []);
 
-    useEffect(() => {
-        const fetchRecommendations = async (page: number) => {
-            try {
-                const allRecommendations: IRecommendation[] = [];
-
-                for (const movie of movies) {
-                    const response = await api.get(`/3/movie/${movie.id}/recommendations`, {
-                        params: { page }
-                    });
-                    allRecommendations.push(...response.data.results);
-                }
-
-                const uniqueRecommendations = Array.from(new Set(allRecommendations.map(a => a.id)))
-                    .map(id => allRecommendations.find(a => a.id === id))
-                    .filter((recommendation): recommendation is IRecommendation => recommendation !== undefined)
-                    .filter(recommendation => !movies.some(movie => movie.id === recommendation.id))
-                    .slice(0, 5 * page);
-
-                setRecommendations(prevRecommendations => [
-                    ...prevRecommendations,
-                    ...uniqueRecommendations
-                ]);
-
-                if (uniqueRecommendations.length < 5 * page) {
-                    setHasMoreRecommendations(false);
-                }
-            } catch (error) {
-                console.error("Error fetching recommendations:", error);
-            }
-        };
-
-        if (movies.length > 0) {
-            fetchRecommendations(recommendationsPage);
-        }
-    }, [movies, recommendationsPage]);
+    const { recommendations, hasMoreRecommendations, loadMoreRecommendations } = useFetchRecommendations(movies);
 
     const handleRemoveFromWatchLater = (movieId: number) => {
         const updatedMovies = movies.filter(movie => movie.id !== movieId);
         setMovies(updatedMovies);
         localStorage.setItem('watchLaterMovies', JSON.stringify(updatedMovies));
-    };
-
-    const loadMoreRecommendations = () => {
-        setRecommendationsPage(prevPage => prevPage + 1);
     };
 
     return (
@@ -88,7 +46,7 @@ const WatchLater: React.FC = () => {
                     <h2 className="text-2xl text-gray-200 font-bold text-center pb-8">Recomendações</h2>
                     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
                         {recommendations.map(recommendation => (
-                            <Link       to={`/movies/${recommendation.id}`} key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded">
+                            <Link to={`/movies/${recommendation.id}`} key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w200${recommendation.poster_path}`}
                                     alt={recommendation.title}
