@@ -50,6 +50,7 @@ const Favorites: React.FC = () => {
             currentHeight += lineHeight;
             doc.text(`Data de Lançamento: ${formatDate(movie.release_date)}`, 10, currentHeight);
             currentHeight += lineHeight * 1; 
+            doc.text("=======================================================================", 10, currentHeight)
         });
 
         doc.save('meus-filmes-favoritos.pdf');
