@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar: React.FC = () => {
     return (
-        <div className="flex py-6 px-8 items-center justify-between text-white">
+        <div className="flex py-6 max-w-[400px]:px-8 px-4 items-center justify-between text-white">
             <Link className="sm:text-3xl text-2xl font-bold hover:text-gray-300 transition-colors" to="/">
                 Filmes
             </Link>
