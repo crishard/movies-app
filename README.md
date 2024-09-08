@@ -15,6 +15,7 @@ Este projeto foi desenvolvido com o objetivo de aprofundar meus conhecimentos em
 - **Pesquisa por Título:** Permite que os usuários encontrem filmes rapidamente através de um campo de busca.
 - **Filtragem por Gênero:** Os usuários podem filtrar os filmes por diferentes gêneros, facilitando a descoberta de novos filmes.
 - **Lista de Favoritos:** Os usuários podem adicionar filmes à sua lista de favoritos para fácil acesso posterior.
+- **Compartilhar Favoritos:** Os usuários podem compartilhar suas listas de favoritos com outras pessoas em formato PDF.
 - **Assistir Mais Tarde:** Permite salvar filmes para assistir mais tarde, gerenciando uma lista separada de favoritos.
 - **Avaliação de Filmes:** Exibe avaliações de filmes com estrelas utilizando a biblioteca `react-star-ratings`.
 - **Feedback ao Usuário:** Notificações instantâneas para ações como adicionar ou remover filmes das listas, utilizando `react-hot-toast`.
