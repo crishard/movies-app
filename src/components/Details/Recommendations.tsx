@@ -44,7 +44,7 @@ const Recommendations: React.FC = () => {
                         onClick={handleClick}
                         to={`/movies/${recommendation.id}`}
                         key={`${recommendation.id}-${index}`}
-                        className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded"
+                        className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5  rounded"
                     >
                         <img
                             src={`https://image.tmdb.org/t/p/w200${recommendation.poster_path}`}

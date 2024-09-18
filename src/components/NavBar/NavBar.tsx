@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const NavBar: React.FC = () => {
@@ -12,14 +13,14 @@ const NavBar: React.FC = () => {
                     className="bg-[#11009E] hover:bg-[#280274] text-white px-4 py-2 rounded-lg transition-colors"
                     to="/watch-later"
                 >
-                    Minha lista
+                    Lista
                 </Link>
                 <Link
-                    className="bg-[#11009E] hover:bg-[#280274] text-white px-4 py-2 rounded-lg transition-colors"
-                    to="/favorites"
-                >
-                    Favoritos
-                </Link>
+              className="text-2xl text-white hover:text-red-600 transition-colors"
+              to="/favorites"
+            >
+              <FaHeart />
+            </Link>
             </nav>
         </div>
     );

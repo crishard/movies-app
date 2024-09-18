@@ -64,7 +64,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
             </div>
             <Genres genres={movie.genres} />
             <Characters characters={characters} />
-            <div className='flex items-center justify-center mt-8'>
+            <div className='flex items-center justify-center gap-[4%] mt-8'>
                 <button
                     className={`mt-4 px-4 py-2 ${isAddedToWatchLater ? 'bg-red-500' : 'bg-blue-500'} text-white rounded`}
                     onClick={handleWatchLater}
