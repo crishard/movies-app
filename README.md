@@ -1,4 +1,4 @@
-# 🎬 Movies App
+# 🎬 Movies Explore
 
 ![alt text](image.png) <!-- Pode adicionar uma imagem representativa do projeto aqui -->
 
