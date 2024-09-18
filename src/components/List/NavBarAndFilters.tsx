@@ -42,7 +42,7 @@ const NavBarAndFilters: React.FC = () => {
     return (
         <>
             <header
-                className="relative w-full md:h-[400px] h-[550px] sm:h-[600px] bg-cover bg-center"
+                className="relative w-full pt-3 md:h-[400px] h-[550px] sm:h-[600px] bg-cover bg-center"
                 style={{ backgroundImage: "url('https://i.pinimg.com/736x/5c/65/4a/5c654a52c7e26e31527f6345bffe1c2f.jpg')" }}
             >
                 <NavByFilter searchTerm={searchTerm} searchChange={handleSearchChange}/>
