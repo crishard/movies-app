@@ -1,6 +1,7 @@
 import React from "react";
 import MovieDetails from "../components/Details/MovieDetails";
 import Recommendations from "../components/Details/Recommendations";
+import { Header } from "../components/Header";
 import useFetchMovieDetails from "../hooks/useFetchMovieDetails";
 
 const Details: React.FC = () => {
@@ -15,10 +16,15 @@ const Details: React.FC = () => {
     }
 
     return (
-        <main className='flex flex-col items-center'>
-            <MovieDetails movie={movie} />
-            <Recommendations />
+        <main className="sm:px-[8%] px-[4%]">
+            <Header />
+            <div className='flex flex-col items-center'>
+
+                <MovieDetails movie={movie} />
+                <Recommendations />
+            </div>
         </main>
+
     );
 };
 

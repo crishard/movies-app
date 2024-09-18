@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { Header } from '../components/Header';
 import StarRating from '../components/StarRatings/StarRatings';
 import CardMovie from '../components/WatchLater/CardMovie';
 import useFetchRecommendations from '../hooks/useFetchRecommendations';
@@ -23,8 +24,9 @@ const WatchLater: React.FC = () => {
     };
 
     return (
-        <div className="watch-later min-h-[1100px]">
-            <h1 className="text-4xl text-gray-200 font-bold text-center py-4 pb-16">Lista para Assistir Mais Tarde</h1>
+        <div className="watch-later min-h-[1100px] sm:px-[8%] px-[4%]">
+            <Header />
+            <h1 className="text-4xl text-gray-200 font-bold text-center pb-16">Lista para Assistir Mais Tarde</h1>
             <div className="movie-list">
                 {movies.length > 0 ? (
                     movies.map((movie) => (
@@ -46,7 +48,7 @@ const WatchLater: React.FC = () => {
                     <h2 className="text-2xl text-gray-200 font-bold text-center pb-8">Recomendações</h2>
                     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
                         {recommendations.map(recommendation => (
-                            <Link to={`/movies/${recommendation.id}`} key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5 bg-gray-800 rounded">
+                            <Link to={`/movies/${recommendation.id}`} key={recommendation.id} className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5rounded">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w200${recommendation.poster_path}`}
                                     alt={recommendation.title}

@@ -1,9 +1,9 @@
-import { ListMovies } from "../components/List/ListMovies"
+import NavBarAndFilters from "../components/List/NavBarAndFilters"
 
 const Home = () => {
     return (
-        <main className="min-h-screen">
-            <ListMovies />
+        <main className="min-h-screen ">
+            <NavBarAndFilters />
         </main>
     )
 }

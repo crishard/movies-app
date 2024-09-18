@@ -1,6 +1,7 @@
 import { jsPDF } from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import IMovieDetails from '../Interfaces/IMovieInterface';
+import { Header } from '../components/Header';
 import MovieCard from '../components/List/MovieCard';
 
 const formatDate = (dateString: string) => {
@@ -57,8 +58,9 @@ const Favorites: React.FC = () => {
     };
 
     return (
-        <div className="text-gray-200 h-screen">
-            <h1 className="text-4xl text-center font-bold py-8">Meus Favoritos</h1>
+        <div className="text-gray-200 h-screen sm:px-[8%] px-[4%]">
+            <Header />
+            <h1 className="text-4xl text-center font-bold pb-8">Meus Favoritos</h1>
             <div className="text-center mb-8">
                 <button
                     onClick={generatePDF}
