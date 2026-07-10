@@ -1,32 +1,42 @@
-import useGenres from "../../hooks/useGenres";
+import { FiX } from "react-icons/fi";
+import IGender from "../../Interfaces/IGenderInterface";
 
 interface IFilterByGenderProps {
-    genderCLick: any,
-    genderSelect: number | null,
+    genres: IGender[];
+    selectedGenre: number | null;
+    onGenreClick: (genreId: number) => void;
 }
 
-export const FilterByGender = ({genderSelect, genderCLick }: IFilterByGenderProps) => {
-    const { genres } = useGenres();
+export const FilterByGender = ({ genres, selectedGenre, onGenreClick }: IFilterByGenderProps) => {
+    if (genres.length === 0) return null;
+
     return (
-        <div className="sm:pt-16 sm:px-[8%] px-[4%]">
-            <h1 className='text-2xl mb-3'>Filtre sua Busca:</h1>
-            {genres.map((genre) => (
-                <button
-                    key={genre.id}
-                    onClick={() => genderCLick(genre.id)}
-                    className={`px-2.5 py-1 rounded-lg sm:m-2 m-0.5 ${genderSelect === genre.id ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-                        } transition-colors`}
-                >
-                    {genre.name}
-                    {genderSelect === genre.id && (
-                        <span
-                            className="ml-2 text-red-500 cursor-pointer"
+        <div className="mt-8 sm:mt-10">
+            <div
+                role="group"
+                aria-label="Filtrar por gênero"
+                className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-auto sm:max-w-4xl sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
+            >
+                {genres.map((genre) => {
+                    const isSelected = selectedGenre === genre.id;
+                    return (
+                        <button
+                            key={genre.id}
+                            type="button"
+                            onClick={() => onGenreClick(genre.id)}
+                            aria-pressed={isSelected}
+                            className={`inline-flex min-h-[40px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                                isSelected
+                                    ? 'border-indigo-500 bg-indigo-600 text-white'
+                                    : 'border-slate-700 bg-slate-900/70 text-slate-300 backdrop-blur hover:border-slate-500 hover:text-white'
+                            }`}
                         >
-                            ✕
-                        </span>
-                    )}
-                </button>
-            ))}
+                            {genre.name}
+                            {isSelected && <FiX aria-hidden />}
+                        </button>
+                    );
+                })}
+            </div>
         </div>
     )
 }
