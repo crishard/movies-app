@@ -3,52 +3,55 @@ import IMovieDetails from '../Interfaces/IMovieInterface';
 import IRecommendation from '../Interfaces/IRecommendation';
 import api from '../services/api';
 
-const useFetchRecommendations = (movies: IMovieDetails[], initialPage = 1) => {
+const PAGE_SIZE = 10;
+
+const useFetchRecommendations = (movies: IMovieDetails[]) => {
     const [recommendations, setRecommendations] = useState<IRecommendation[]>([]);
-    const [recommendationsPage, setRecommendationsPage] = useState(initialPage);
-    const [hasMoreRecommendations, setHasMoreRecommendations] = useState(true);
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
     useEffect(() => {
-        const fetchRecommendations = async (page: number) => {
+        if (movies.length === 0) {
+            setRecommendations([]);
+            return;
+        }
+
+        let cancelled = false;
+
+        const fetchRecommendations = async () => {
             try {
-                const allRecommendations: IRecommendation[] = [];
+                const responses = await Promise.all(
+                    movies.map(movie => api.get(`/3/movie/${movie.id}/recommendations`))
+                );
+                if (cancelled) return;
 
-                for (const movie of movies) {
-                    const response = await api.get(`/3/movie/${movie.id}/recommendations`, {
-                        params: { page }
-                    });
-                    allRecommendations.push(...response.data.results);
-                }
+                const allRecommendations = responses.flatMap(
+                    response => response.data.results as IRecommendation[]
+                );
 
-                const uniqueRecommendations = Array.from(new Set(allRecommendations.map(a => a.id)))
-                    .map(id => allRecommendations.find(a => a.id === id))
-                    .filter((recommendation): recommendation is IRecommendation => recommendation !== undefined)
-                    .filter(recommendation => !movies.some(movie => movie.id === recommendation.id))
-                    .slice(0, 5 * page);
+                const uniqueRecommendations = allRecommendations.filter(
+                    (recommendation, index) =>
+                        allRecommendations.findIndex(item => item.id === recommendation.id) === index &&
+                        !movies.some(movie => movie.id === recommendation.id)
+                );
 
-                setRecommendations(prevRecommendations => [
-                    ...prevRecommendations,
-                    ...uniqueRecommendations
-                ]);
-
-                if (uniqueRecommendations.length < 5 * page) {
-                    setHasMoreRecommendations(false);
-                }
+                setRecommendations(uniqueRecommendations);
             } catch (error) {
                 console.error("Error fetching recommendations:", error);
             }
         };
 
-        if (movies.length > 0) {
-            fetchRecommendations(recommendationsPage);
-        }
-    }, [movies, recommendationsPage]);
+        fetchRecommendations();
 
-    const loadMoreRecommendations = () => {
-        setRecommendationsPage(prevPage => prevPage + 1);
-    };
+        return () => {
+            cancelled = true;
+        };
+    }, [movies]);
 
-    return { recommendations, hasMoreRecommendations, loadMoreRecommendations };
+    const visibleRecommendations = recommendations.slice(0, visibleCount);
+    const hasMoreRecommendations = visibleCount < recommendations.length;
+    const loadMoreRecommendations = () => setVisibleCount(count => count + PAGE_SIZE);
+
+    return { recommendations: visibleRecommendations, hasMoreRecommendations, loadMoreRecommendations };
 };
 
 export default useFetchRecommendations;
