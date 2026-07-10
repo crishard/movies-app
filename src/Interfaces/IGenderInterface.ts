@@ -1,5 +1,5 @@
 interface IGender {
-    id: string,
+    id: number,
     name: string
 }
 export default IGender

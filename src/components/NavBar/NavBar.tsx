@@ -1,26 +1,36 @@
 import React from 'react';
-import { FaHeart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { BiCameraMovie } from 'react-icons/bi';
+import { FaRegBookmark, FaRegHeart } from 'react-icons/fa';
+import { Link, NavLink } from 'react-router-dom';
+
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `inline-flex min-h-[44px] items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+        isActive
+            ? 'bg-slate-800 text-white'
+            : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
+    }`;
 
 const NavBar: React.FC = () => {
     return (
-        <div className="flex py-6 max-w-[400px]:px-8 px-4 items-center justify-between text-white">
-            <Link className="sm:text-3xl text-2xl font-bold hover:text-gray-300 transition-colors" to="/">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:px-8">
+            <Link
+                to="/"
+                className="inline-flex min-h-[44px] items-center gap-2 text-lg font-extrabold tracking-tight transition-colors hover:text-indigo-400 sm:text-xl"
+            >
+                <BiCameraMovie className="text-2xl text-indigo-500 sm:text-3xl" aria-hidden />
                 Filmes
             </Link>
-            <nav className="flex items-center sm:gap-6 gap-2">
-                <Link
-                    className="bg-[#11009E] hover:bg-[#280274] text-white px-4 py-2 rounded-lg transition-colors"
-                    to="/watch-later"
-                >
-                    Lista
-                </Link>
-                <Link
-              className="text-2xl text-white hover:text-red-600 transition-colors"
-              to="/favorites"
-            >
-              <FaHeart />
-            </Link>
+            <nav aria-label="Navegação principal" className="flex items-center gap-1 sm:gap-2">
+                <NavLink to="/watch-later" className={navLinkClass}>
+                    <FaRegBookmark aria-hidden />
+                    <span className="hidden sm:inline">Minha Lista</span>
+                    <span className="sr-only sm:hidden">Minha Lista</span>
+                </NavLink>
+                <NavLink to="/favorites" className={navLinkClass}>
+                    <FaRegHeart aria-hidden />
+                    <span className="hidden sm:inline">Favoritos</span>
+                    <span className="sr-only sm:hidden">Favoritos</span>
+                </NavLink>
             </nav>
         </div>
     );
