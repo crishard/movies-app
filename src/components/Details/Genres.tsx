@@ -1,23 +1,23 @@
 import React from 'react';
 import IGender from '../../Interfaces/IGenderInterface';
 
-
-
 interface GenresProps {
-    genres:  IGender[];
+    genres: IGender[];
 }
 
 const Genres: React.FC<GenresProps> = ({ genres }) => {
+    if (!genres || genres.length === 0) return null;
+
     return (
-        <div className="pt-4">
-            <p className="flex items-center text-lg gap-2">
-                Gêneros:
-                <span className="flex gap-2">
-                    {genres.map((genre) => (
-                        <span key={genre.id}>{genre.name} |</span>
-                    ))}
+        <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+            {genres.map((genre) => (
+                <span
+                    key={genre.id}
+                    className="rounded-full border border-slate-700 bg-slate-800/60 px-3 py-1 text-xs font-medium text-slate-300"
+                >
+                    {genre.name}
                 </span>
-            </p>
+            ))}
         </div>
     );
 };

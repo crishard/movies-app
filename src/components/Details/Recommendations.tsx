@@ -1,75 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import IRecommendation from '../../Interfaces/IRecommendation';
 import api from '../../services/api';
-import StarRating from '../StarRatings/StarRatings';
-import ReleaseDate from './ReleaseDate';
+import MovieCard from '../List/MovieCard';
 
 const Recommendations: React.FC = () => {
     const [recommendations, setRecommendations] = useState<IRecommendation[]>([]);
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const getMovieDetails = async () => {
+        setPage(1);
+    }, [id]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const fetchRecommendations = async () => {
             try {
-                const recommendationsResponse = await api.get(`/3/movie/${id}/recommendations`, {
+                setLoading(true);
+                const response = await api.get(`/3/movie/${id}/recommendations`, {
                     params: { page }
                 });
-                setRecommendations(prevRecommendations => [
-                    ...prevRecommendations,
-                    ...recommendationsResponse.data.results
-                ]);
+                if (cancelled) return;
+
+                setTotalPages(response.data.total_pages ?? 1);
+                setRecommendations(prevRecommendations => {
+                    const results: IRecommendation[] = response.data.results;
+                    if (page === 1) return results;
+
+                    const uniqueResults = results.filter(
+                        result => !prevRecommendations.some(recommendation => recommendation.id === result.id)
+                    );
+                    return [...prevRecommendations, ...uniqueResults];
+                });
             } catch (error) {
-                console.error("Error fetching movie details:", error);
+                console.error("Error fetching recommendations:", error);
+            } finally {
+                if (!cancelled) {
+                    setLoading(false);
+                }
             }
         };
-        getMovieDetails();
+        fetchRecommendations();
+
+        return () => {
+            cancelled = true;
+        };
     }, [id, page]);
 
-    const handleClick = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    const loadMoreRecommendations = () => {
-        setPage(prevPage => prevPage + 1);
-    };
+    if (recommendations.length === 0) return null;
 
     return (
-        <div className="mt-32 text-gray-200">
-            <h2 className="text-2xl font-bold pb-4">Recomendações</h2>
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                {recommendations.map((recommendation, index) => (
-                    <Link
-                        onClick={handleClick}
-                        to={`/movies/${recommendation.id}`}
-                        key={`${recommendation.id}-${index}`}
-                        className="flex flex-col items-center py-4 hover:scale-105 duration-300 shadow-xl p-5  rounded"
-                    >
-                        <img
-                            src={`https://image.tmdb.org/t/p/w200${recommendation.poster_path}`}
-                            alt={recommendation.title}
-                            className="rounded mb-4"
+        <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-8">
+            <h2 className="mb-6 text-xl font-bold tracking-tight sm:text-2xl">Você também pode gostar</h2>
+            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
+                {recommendations.map((recommendation) => (
+                    <li key={recommendation.id}>
+                        <MovieCard
+                            movie={recommendation}
+                            onClick={(movieId) => navigate(`/movies/${movieId}`)}
                         />
-                        <div className="text-center">
-                            <p className="text-lg font-bold">{recommendation.title}</p>
-                            <div className="pt-5 text-xl font-medium">
-                                <ReleaseDate releaseDate={recommendation.release_date} />
-                                Avaliação: <StarRating rating={recommendation.vote_average} />
-                            </div>
-                        </div>
-                    </Link>
+                    </li>
                 ))}
-            </div>
-            <div className="flex justify-center mt-8">
-                <button
-                    onClick={loadMoreRecommendations}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                    Carregar Mais Recomendações
-                </button>
-            </div>
-        </div>
+            </ul>
+            {page < totalPages && (
+                <div className="flex justify-center pt-10">
+                    <button
+                        type="button"
+                        onClick={() => setPage(prevPage => prevPage + 1)}
+                        disabled={loading}
+                        className="min-h-[48px] w-full rounded-full bg-indigo-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                    >
+                        {loading ? 'Carregando...' : 'Ver mais recomendações'}
+                    </button>
+                </div>
+            )}
+        </section>
     );
 };
 
